@@ -8,8 +8,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "user",
-        "Type": "TourismGalle.Models.User",
+        "Name": "request",
+        "Type": "LoginRequest",
         "IsRequired": true
       }
     ],
