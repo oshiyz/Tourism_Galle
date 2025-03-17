@@ -1,37 +1,42 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  template: `
-    <div class="container">
-      <h2>Register</h2>
-      <form (submit)="register()">
-        <input type="text" placeholder="Full Name" [(ngModel)]="user.fullName" required />
-        <input type="email" placeholder="Email" [(ngModel)]="user.email" required />
-        <input type="password" placeholder="Password" [(ngModel)]="user.password" required />
-        <button type="submit">Register</button>
-      </form>
-    </div>
-  `
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-  user = { fullName: '', email: '', password: '' };
+  registerForm: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private fb: FormBuilder) {
+    this.registerForm = this.fb.group({
+      fullName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
+  }
 
   register() {
-    this.authService.register(this.user).subscribe(
+    if (this.registerForm.invalid) {
+      return;
+    }
+  
+    const user = this.registerForm.value;
+    console.log('Registering user:', user); // Add this line
+    this.authService.register(user).subscribe(
       () => {
         alert('Registration successful!');
         this.router.navigate(['/login']);
       },
-      (error) => alert(error.error)
+      (error) => {
+        console.error('Registration error:', error); // Add this line
+        alert(error.error);
+      }
     );
   }
 }

@@ -1,31 +1,32 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  template: `
-    <div class="container">
-      <h2>Login</h2>
-      <form (submit)="login()">
-        <input type="email" placeholder="Email" [(ngModel)]="credentials.email" required />
-        <input type="password" placeholder="Password" [(ngModel)]="credentials.password" required />
-        <button type="submit">Login</button>
-      </form>
-    </div>
-  `
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  credentials = { email: '', password: '' };
+  loginForm: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private fb: FormBuilder) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
+  }
 
   login() {
-    this.authService.login(this.credentials).subscribe(
+    if (this.loginForm.invalid) {
+      return;
+    }
+
+    const credentials = this.loginForm.value;
+    this.authService.login(credentials).subscribe(
       (res) => {
         alert('Login successful!');
         localStorage.setItem('user', JSON.stringify(res));
