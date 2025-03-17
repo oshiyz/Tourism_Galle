@@ -1,7 +1,5 @@
-﻿namespace TourismGalle.Controllers;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TourismGalle.Models;
-using TourismGalle.Services;
 
 [Route("api/auth")]
 [ApiController]
@@ -29,11 +27,10 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] User user)
     {
-        var authenticatedUser = await _authService.Login(user.Email, user.PasswordHash);
+        var authenticatedUser = await _authService.Login(user.Email, user.Password);
         if (authenticatedUser == null)
             return Unauthorized("Invalid email or password");
 
         return Ok(authenticatedUser);
     }
 }
-

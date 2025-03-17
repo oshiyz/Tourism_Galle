@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TourismGalle.Services; // ✅ Add this
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();

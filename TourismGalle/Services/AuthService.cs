@@ -1,7 +1,5 @@
-﻿namespace TourismGalle.Services;
+﻿using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using System.Text;
 using TourismGalle.Models;
 
 public class AuthService
@@ -19,7 +17,7 @@ public class AuthService
         if (await _context.Users.AnyAsync(u => u.Email == user.Email))
             return false; // Email already exists
 
-        user.PasswordHash = HashPassword(user.PasswordHash); // Hash the password
+        user.PasswordHash = HashPassword(user.Password); // Hash the password
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
         return true;
@@ -35,18 +33,14 @@ public class AuthService
         return user;
     }
 
-    // Password Hashing
+    // Password Hashing using BCrypt
     private string HashPassword(string password)
     {
-        using var sha256 = SHA256.Create();
-        var bytes = Encoding.UTF8.GetBytes(password);
-        var hash = sha256.ComputeHash(bytes);
-        return Convert.ToBase64String(hash);
+        return BCrypt.Net.BCrypt.HashPassword(password);
     }
 
-    // Verify Password
     private bool VerifyPassword(string password, string hash)
     {
-        return HashPassword(password) == hash;
+        return BCrypt.Net.BCrypt.Verify(password, hash);
     }
 }
