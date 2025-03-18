@@ -6,4 +6,9 @@
     <input type="password" placeholder="Password" formControlName="password" required />
     <button type="submit" [disabled]="registerForm.invalid">Register</button>
   </form>
+
+  <div class="login-link">
+    Already have an account? 
+    <a routerLink="/auth/login">Sign in</a> <!-- Use routerLink here -->
+  </div>
 </div>

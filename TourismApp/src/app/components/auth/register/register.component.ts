@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../../../services/auth.service';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, ReactiveFormsModule],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterModule], // Import RouterModule for routerLink
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
   registerForm: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router, private fb: FormBuilder) {
+  constructor(private fb: FormBuilder) {
     this.registerForm = this.fb.group({
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -25,18 +25,6 @@ export class RegisterComponent {
     if (this.registerForm.invalid) {
       return;
     }
-  
-    const user = this.registerForm.value;
-    console.log('Registering user:', user); // Add this line
-    this.authService.register(user).subscribe(
-      () => {
-        alert('Registration successful!');
-        this.router.navigate(['/login']);
-      },
-      (error) => {
-        console.error('Registration error:', error); // Add this line
-        alert(error.error);
-      }
-    );
+    console.log('Register form submitted', this.registerForm.value);
   }
 }
