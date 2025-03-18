@@ -11,22 +11,35 @@ public class AuthService
         _context = context;
     }
 
-    // ✅ Register (Signup)
+    // ✅ Register (Signup) using Stored Procedure
     public async Task<bool> Register(User user)
     {
-        if (await _context.Users.AnyAsync(u => u.Email == user.Email))
+        // Check if email already exists
+        var emailExists = await _context.Users.AnyAsync(u => u.Email == user.Email);
+        if (emailExists)
             return false; // Email already exists
 
-        user.PasswordHash = HashPassword(user.Password); // Hash the password
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
+        // Hash the password
+        user.PasswordHash = HashPassword(user.Password);
+
+        // Call stored procedure for registration
+        await _context.Database.ExecuteSqlInterpolatedAsync(
+            $"EXEC RegisterUser @FullName={user.FullName}, @Email={user.Email}, @PasswordHash={user.PasswordHash}, @Role={user.Role}"
+        );
+
         return true;
     }
 
-    // ✅ Login
+    // ✅ Login using Stored Procedure
     public async Task<User?> Login(string email, string password)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        // Call stored procedure to get user by email
+        var users = await _context.Users
+            .FromSqlInterpolated($"EXEC GetUserByEmail @Email={email}")
+            .ToListAsync(); // Execute the query and return results as a list
+
+        var user = users.FirstOrDefault(); // Get the first user (if any)
+
         if (user == null || !VerifyPassword(password, user.PasswordHash))
             return null;
 
