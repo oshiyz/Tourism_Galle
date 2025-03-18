@@ -17,6 +17,7 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] User user)
     {
+        Console.WriteLine("Register request received for email: " + user.Email); // Add this line
         bool isRegistered = await _authService.Register(user);
         if (!isRegistered)
             return BadRequest("Email already exists");
