@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using TourismGalle.Models;
 
@@ -27,22 +28,58 @@ public class AuthController : ControllerBase
 
     // ✅ Login API
     [HttpPost("login")]
+  
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         var authenticatedUser = await _authService.Login(request.Email, request.Password);
         if (authenticatedUser == null)
             return Unauthorized("Invalid email or password");
 
-        return Ok(authenticatedUser);
+        return Ok("Login Successfully");
     }
-}
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
+    {
+        bool result = await _authService.RequestPasswordReset(request.Email);
+        if (!result)
+            return BadRequest("User not found.");
 
-// Login Request DTO
-public class LoginRequest
-{
-    [Required, EmailAddress]
-    public string Email { get; set; }
+        return Ok("Reset password link has been sent to your email.");
+    }
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
+    {
+        bool result = await _authService.ResetPassword(request.Token, request.NewPassword);
+        if (!result)
+            return BadRequest("Invalid or expired token.");
 
-    [Required]
-    public string Password { get; set; }
+        return Ok("Password has been reset successfully.");
+    }
+    public class ForgotPasswordRequest
+    {
+        [Required, EmailAddress]
+        public string Email { get; set; }
+    }
+
+    public class ResetPasswordRequest
+    {
+        [Required]
+        public string Token { get; set; }
+
+        [Required]
+        public string NewPassword { get; set; }
+    }
+
+
+
+    // Login Request DTO
+    public class LoginRequest
+    {
+        [Required, EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+    }
+
 }
