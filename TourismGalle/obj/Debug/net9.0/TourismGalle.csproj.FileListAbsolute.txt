@@ -178,7 +178,9 @@ E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\TourismGalle.pdb
 E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\Azure.Core.dll
 E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\Azure.Identity.dll
 E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\BCrypt.Net-Next.dll
+E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\BouncyCastle.Cryptography.dll
 E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\Humanizer.dll
+E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\MailKit.dll
 E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
 E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
 E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\Microsoft.Build.Locator.dll
@@ -215,7 +217,11 @@ E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dl
 E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\Microsoft.OpenApi.dll
 E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
 E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
+E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\MimeKit.dll
 E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\Mono.TextTemplating.dll
+E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\Newtonsoft.Json.dll
+E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\SendGrid.dll
+E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\StarkbankEcdsa.dll
 E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
 E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 E:\Tourism_Galle\TourismGalle\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
