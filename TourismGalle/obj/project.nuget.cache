@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "eTgsmN/4qEI=",
+  "dgSpecHash": "nfz3etbfyDc=",
   "success": true,
-  "projectFilePath": "E:\\Toursim\\TourismGalle\\TourismGalle.csproj",
+  "projectFilePath": "E:\\Tourism_Galle\\TourismGalle\\TourismGalle.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dahan\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\dahan\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
