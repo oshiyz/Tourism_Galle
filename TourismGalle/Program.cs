@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TourismGalle.Services;
+using TourismGalle.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add CORS policy
@@ -13,19 +16,20 @@ builder.Services.AddCors(options =>
         });
 });
 
-// Other services
+// Register services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Register ApplicationDbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
-
-
-
+// Register custom services
+builder.Services.AddScoped<IReviewService, ReviewService>();  // Register ReviewService
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<EmailService>(); // Register Email Service
-
 
 var app = builder.Build();
 
