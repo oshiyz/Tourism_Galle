@@ -16,9 +16,14 @@ export interface Review {
   providedIn: 'root'
 })
 export class ReviewService {
+  
   private apiUrl = 'http://localhost:5136/api/reviews'; // Adjust URL based on your backend port
 
   constructor(private http: HttpClient) {}
+
+  getAllReviews(): Observable<Review[]> {
+    return this.http.get<Review[]>(`${this.apiUrl}`);
+  }
 
   getReviews(type: string, itemId: number): Observable<Review[]> {
     return this.http.get<Review[]>(`${this.apiUrl}/item/${itemId}`);

@@ -5,6 +5,7 @@ import { ReviewService, Review } from '../../services/review.service';
 import { ActivatedRoute } from '@angular/router';
 import { ReviewFormComponent } from '../review-form/review-form.component';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { DummySessionService } from '../../services/dummy-session.service';
 
 @Component({
   selector: 'app-reviews',
@@ -15,9 +16,11 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
     ReviewFormComponent,
     ConfirmDialogComponent
   ],
+  providers: [DummySessionService], 
   templateUrl: './reviews.component.html',
   styleUrls: ['./reviews.component.scss']
 })
+
 export class ReviewsComponent implements OnInit {
   type: 'tour' | 'hotel' | 'activity';
   itemId: number;
@@ -26,16 +29,24 @@ export class ReviewsComponent implements OnInit {
   selectedReview: Review | null = null;
   isConfirmDialogOpen: boolean = false;
   reviewToDelete: number | null = null;
+  sessionEmail: string | null = null;
 
   constructor(
+    private route: ActivatedRoute,
     private reviewService: ReviewService,
-    private route: ActivatedRoute
+    private dummySessionService: DummySessionService
   ) {
     this.type = (this.route.snapshot.paramMap.get('type') as 'tour' | 'hotel' | 'activity') || 'tour';
     this.itemId = Number(this.route.snapshot.paramMap.get('itemId')) || 0;
   }
 
   ngOnInit() {
+    if (this.dummySessionService) {
+      this.sessionEmail = this.dummySessionService.getCurrentEmail();
+    } else {
+      console.error('DummySessionService is not injected');
+      this.sessionEmail = null;
+    }
     this.loadReviews();
   }
 

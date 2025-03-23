@@ -14,8 +14,8 @@
             </span>
           </div>
         </div>
-        <div class="action-trigger"></div>
-        <div class="actions">
+        <!-- Actions for review: Show only if review.email matches sessionEmail -->
+        <div class="actions" *ngIf="review.email === sessionEmail">
           <button (click)="openReviewForm(review)">
             <i class="fa-solid fa-pen-nib"></i>
           </button>
